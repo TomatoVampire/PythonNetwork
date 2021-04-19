@@ -14,8 +14,8 @@ import time
 serverPort = 12000
 serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(('', serverPort))
-# 来自客户的最大连接请求为 1
 print(time.asctime(time.localtime(time.time())))
+# 来自客户的最大连接请求为?
 serverSocket.listen(10)
 print("server ready to connect.")
 
