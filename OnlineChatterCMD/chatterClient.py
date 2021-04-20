@@ -1,4 +1,6 @@
 from socket import *
+from threading import *
+import time
 # 服务器的参数
 serverName = 'localhost' # 会自动查询DNS获得域名的ip（localhost = 127.0.0.1）
 serverPort = 12000
@@ -12,18 +14,44 @@ print("help info: type any characters to send msg. Type '_EXIT' to leave the cha
 # 首次链接，给服务端发送用户名
 clientSocket.sendto(name.encode(), (serverName, serverPort))
 
-while True:
-    message = input('Input chat content: ')
-    # completeMsg = name + ": " + message
-    # 发送给服务端的信息直接为输入的信息
-    clientSocket.sendto(message.encode(), (serverName, serverPort))
-    # 退出聊天室
-    if message == '_EXIT':
-        break
-    # 等待接收分组。。。
+# 接受服务端的通知
+def receive_announce():
+    while True:
+        try:
+            modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
+            print(modifiedMessage.decode())
+        except:
+            break
+    # print("client program has ended")
 
+# 等待输入信息发送给服务器
+def input_message():
+    while True:
+        try:
+            # message = input('(send)' + name + ': ')
+            message = input()
+            clientSocket.sendto(message.encode(), (serverName, serverPort))
+            # 退出聊天室
+            if message == '_EXIT':
+                print('left chat')
+                time.sleep(0.5)
+                clientSocket.close()
+                break
+        except:
+            break
+
+
+r = Thread(target=receive_announce, name='listenerThread')
+t = Thread(target=input_message, name='inputThread')
+r.start()
+t.start()
+
+r.join()
+t.join()
+
+    #print('thread %s ended.' % current_thread().name)
+    # 等待接收分组。。。
     # 获取获得分组的信息及服务器ip（=serverName） 2048为buffer size(B)
     # modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
 
     # print(modifiedMessage.decode())
-clientSocket.close()

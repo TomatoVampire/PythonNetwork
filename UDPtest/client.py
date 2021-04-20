@@ -8,6 +8,8 @@ clientSocket = socket(AF_INET, SOCK_DGRAM)
 # 发送分组到上方填写的ip和端口处
 while True:
     message = input('Input lowercase sentence:')
+    if message == 'exit':
+        break
     clientSocket.sendto(message.encode(), (serverName, serverPort))
     # 等待接收分组。。。
 
