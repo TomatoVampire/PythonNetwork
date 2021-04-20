@@ -9,7 +9,7 @@ print("server ready to connect.")
 while True:
     connectionSocket, addr = serverSocket.accept()
     print("----------------------")
-    print("connect client: ",addr)
+    print("connect client: ", addr)
     filename = connectionSocket.recv(1024).decode()
     print("requested file: ", filename)
     content = None
@@ -17,9 +17,12 @@ while True:
         f = open(filename, "rb")
         content = f.read()
         f.close()
+        connectionSocket.send("success".encode())
     except:
         print("ERROR: file not found")
+        connectionSocket.send("fail".encode())
     if content:
+        # print("send content...")
         connectionSocket.send(content)
         connectionSocket.close()
 serverSocket.close()
