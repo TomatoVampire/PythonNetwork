@@ -48,10 +48,3 @@ t.start()
 
 r.join()
 t.join()
-
-    #print('thread %s ended.' % current_thread().name)
-    # 等待接收分组。。。
-    # 获取获得分组的信息及服务器ip（=serverName） 2048为buffer size(B)
-    # modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
-
-    # print(modifiedMessage.decode())
