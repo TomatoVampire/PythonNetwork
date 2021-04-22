@@ -48,8 +48,9 @@ class Connect:
 c = Connect()
 r = Thread(target=c.receive_announce, name='listenerThread')
 t = Thread(target=c.input_message, name='inputThread')
-r.start()
+
 t.start()
+r.start()
 
 r.join()
 t.join()

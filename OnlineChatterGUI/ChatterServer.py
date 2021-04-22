@@ -33,7 +33,7 @@ while True:
         else:
             announce = str(userlist[clientAddress]) + ": " + msg
     else:
-        if msg == "_EXIT":
+        if msg == "_EXIT" or msg == 'test':
             continue
         # 首次加入，消息为用户名
         addr.append(clientAddress)
